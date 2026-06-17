@@ -13,6 +13,11 @@ stage('Checkout') {
         checkout scm
     }
 }
+stage('Test') {
+    steps {
+        echo 'Reading Jenkinsfile from GitHub'
+    }
+}
         stage('Build') {
             steps {
                 sh 'mvn clean package'
