@@ -7,6 +7,6 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home() {
-        return "Welcome to the Hotel Management System!";
+        return "Welcome to the Hotel Management System!, Hello Sanjay";
     }
 }
