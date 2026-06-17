@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "hotel-management"
+        TAG = "${BUILD_NUMBER}"
+    }
+
     stages {
 
         stage('Build') {
@@ -11,7 +16,11 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t hotel-management .'
+                sh '''
+                docker build \
+                -t ${IMAGE_NAME}:${TAG} \
+                -t ${IMAGE_NAME}:latest .
+                '''
             }
         }
 
@@ -23,7 +32,7 @@ pipeline {
                 docker run -d \
                 --name hotel-management \
                 -p 8090:8090 \
-                hotel-management
+                ${IMAGE_NAME}:${TAG}
                 '''
             }
         }
