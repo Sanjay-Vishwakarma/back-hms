@@ -1,122 +1,65 @@
-# Hotel Management Service
+This is a Hotel Management Service Backend built with Java 8 + Spring Boot + Spring Data JPA + H2 database.
+It manages:
 
-Spring Boot backend for a hotel management system using Java 8 compatible dependencies.
+Hotel rooms
+Guests
+Bookings
+Room availability
+Check-in / check-out
+Booking cancellation
 
-## Features
+Revenue summary
+It uses an in-memory H2 database, so data resets when the app restarts. Some sample rooms and guests are automatically added when the app starts.
+API List
 
-- Room inventory with room type, capacity, price, and soft delete
-- Guest registration and update
-- Booking creation with capacity and date-overlap checks
-- Check-in, check-out, and cancellation workflow
-- Availability search by date range and optional room type
-- Revenue summary
-- Bean validation and central API error responses
-- H2 in-memory database with seed rooms and guests
-- Java 8 style code using streams, lambdas, method references, `Optional`, and `java.time`
-
-## Run
-
-```bash
-./mvnw spring-boot:run
-```
-
-Base URL:
-
-```text
-http://localhost:8080
-```
-
-H2 console:
-
-```text
-http://localhost:8080/h2-console
-```
-
-JDBC URL:
-
-```text
-jdbc:h2:mem:hotel_db
-```
-
-## API
-
-### Rooms
-
-```http
-GET /api/rooms
-GET /api/rooms/available?checkInDate=2026-07-01&checkOutDate=2026-07-03&type=DOUBLE
-POST /api/rooms
-PUT /api/rooms/{id}
+Room APIs
+GET    /api/rooms
+GET    /api/rooms/available
+POST   /api/rooms
+PUT    /api/rooms/{id}
 DELETE /api/rooms/{id}
-```
+Total: 5
 
-Create room body:
-
-```json
-{
-  "roomNumber": "401",
-  "type": "DELUXE",
-  "capacity": 3,
-  "pricePerNight": 4500.00
-}
-```
-
-Room types:
-
-```text
-SINGLE, DOUBLE, DELUXE, SUITE
-```
-
-### Guests
-
-```http
-GET /api/guests
+Guest APIs
+GET  /api/guests
 POST /api/guests
-PUT /api/guests/{id}
-```
+PUT  /api/guests/{id}
+Total: 3
 
-Create guest body:
-
-```json
-{
-  "fullName": "Rohan Mehta",
-  "email": "rohan@example.com",
-  "phone": "9988776655",
-  "idProof": "AADHAAR-9001"
-}
-```
-
-### Bookings
-
-```http
-GET /api/bookings
+Booking APIs
+GET  /api/bookings
 POST /api/bookings
 POST /api/bookings/{id}/check-in
 POST /api/bookings/{id}/check-out
 POST /api/bookings/{id}/cancel
-GET /api/bookings/summary
-```
+GET  /api/bookings/summary
+Total: 6
 
-Create booking body:
+H2 Database Console
+GET /h2-console
+Total: 1
 
-```json
-{
-  "roomId": 1,
-  "guestId": 1,
-  "checkInDate": "2026-07-01",
-  "checkOutDate": "2026-07-03",
-  "numberOfGuests": 1
-}
-```
+Spring Boot Default Error API
+/error
+Total: 1
 
-Booking statuses:
+So:
+Room APIs:     5
+Guest APIs:    3
+Booking APIs:  6
+H2 Console:    1
+Error API:     1
+Total:        16
 
-```text
-RESERVED, CHECKED_IN, CHECKED_OUT, CANCELLED
-```
+The main business APIs are 14, excluding /h2-console and /error.
 
-## Test
 
-```bash
-./mvnw test
-```
+
+//
+
+run the spring boot application
+- ./mvnw spring-boot:run    
+
+db
+
+http://localhost:8091/h2-console
