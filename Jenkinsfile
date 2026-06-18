@@ -7,17 +7,18 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
-stage('Checkout') {
-    steps {
-        checkout scm
-    }
-}
-stage('Test') {
-    steps {
-        echo 'Reading Jenkinsfile from GitHub'
-    }
-}
+        stage('Test') {
+            steps {
+                echo 'Reading Jenkinsfile from GitHub'
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'mvn clean package'
@@ -27,9 +28,9 @@ stage('Test') {
         stage('Docker Build') {
             steps {
                 sh '''
-                docker build \
-                -t ${IMAGE_NAME}:${TAG} \
-                -t ${IMAGE_NAME}:latest .
+                    docker build \
+                        -t ${IMAGE_NAME}:${TAG} \
+                        -t ${IMAGE_NAME}:latest .
                 '''
             }
         }
@@ -37,12 +38,12 @@ stage('Test') {
         stage('Deploy') {
             steps {
                 sh '''
-                docker rm -f hotel-management || true
+                    docker rm -f hotel-management || true
 
-                docker run -d \
-                --name hotel-management \
-                -p 8090:8090 \
-                ${IMAGE_NAME}:${TAG}
+                    docker run -d \
+                        --name hotel-management \
+                        -p 8090:8090 \
+                        ${IMAGE_NAME}:${TAG}
                 '''
             }
         }
