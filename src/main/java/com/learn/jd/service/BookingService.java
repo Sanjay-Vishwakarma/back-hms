@@ -37,6 +37,7 @@ public class BookingService {
         this.guestRepository = guestRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<BookingResponse> findAll() {
         return bookingRepository.findAll()
                 .stream()
@@ -100,10 +101,12 @@ public class BookingService {
         return new BookingResponse(booking);
     }
 
+    @Transactional(readOnly = true)
     public boolean isRoomAvailable(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
         return bookingRepository.findOverlappingBookings(roomId, checkInDate, checkOutDate, OCCUPYING_STATUSES).isEmpty();
     }
 
+    @Transactional(readOnly = true)
     public RevenueSummaryResponse revenueSummary() {
         List<Booking> bookings = bookingRepository.findAll();
         long activeBookings = bookings.stream()
