@@ -4,7 +4,7 @@ import com.learn.jd.entity.Guest;
 
 public class GuestResponse {
 
-    private Long id;
+    private String id;
     private String fullName;
     private String email;
     private String phone;
@@ -18,7 +18,7 @@ public class GuestResponse {
         this.idProof = guest.getIdProof();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

@@ -51,13 +51,13 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public RoomResponse update(@PathVariable Long id, @Valid @RequestBody RoomRequest request) {
+    public RoomResponse update(@PathVariable String id, @Valid @RequestBody RoomRequest request) {
         return roomService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deactivate(@PathVariable Long id) {
+    public void deactivate(@PathVariable String id) {
         roomService.deactivate(id);
     }
 }

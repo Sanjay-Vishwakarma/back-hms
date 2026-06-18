@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public class RoomResponse {
 
-    private Long id;
+    private String id;
     private String roomNumber;
     private RoomType type;
     private int capacity;
@@ -23,7 +23,7 @@ public class RoomResponse {
         this.active = room.isActive();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

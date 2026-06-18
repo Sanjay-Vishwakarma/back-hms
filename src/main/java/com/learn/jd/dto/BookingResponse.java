@@ -8,10 +8,10 @@ import java.time.LocalDate;
 
 public class BookingResponse {
 
-    private Long id;
-    private Long roomId;
+    private String id;
+    private String roomId;
     private String roomNumber;
-    private Long guestId;
+    private String guestId;
     private String guestName;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
@@ -32,11 +32,11 @@ public class BookingResponse {
         this.status = booking.getStatus();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public Long getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
@@ -44,7 +44,7 @@ public class BookingResponse {
         return roomNumber;
     }
 
-    public Long getGuestId() {
+    public String getGuestId() {
         return guestId;
     }
 

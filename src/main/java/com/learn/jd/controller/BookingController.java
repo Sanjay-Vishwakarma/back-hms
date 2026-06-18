@@ -38,17 +38,17 @@ public class BookingController {
     }
 
     @PostMapping("/{id}/check-in")
-    public BookingResponse checkIn(@PathVariable Long id) {
+    public BookingResponse checkIn(@PathVariable String id) {
         return bookingService.checkIn(id);
     }
 
     @PostMapping("/{id}/check-out")
-    public BookingResponse checkOut(@PathVariable Long id) {
+    public BookingResponse checkOut(@PathVariable String id) {
         return bookingService.checkOut(id);
     }
 
     @PostMapping("/{id}/cancel")
-    public BookingResponse cancel(@PathVariable Long id) {
+    public BookingResponse cancel(@PathVariable String id) {
         return bookingService.cancel(id);
     }
 

@@ -7,7 +7,6 @@ import com.learn.jd.exception.BusinessException;
 import com.learn.jd.exception.ResourceNotFoundException;
 import com.learn.jd.repository.GuestRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,6 @@ public class GuestService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public GuestResponse create(GuestRequest request) {
         guestRepository.findByEmail(request.getEmail())
                 .ifPresent(guest -> {
@@ -39,8 +37,7 @@ public class GuestService {
         return new GuestResponse(guestRepository.save(guest));
     }
 
-    @Transactional
-    public GuestResponse update(Long id, GuestRequest request) {
+    public GuestResponse update(String id, GuestRequest request) {
         Guest guest = getGuest(id);
         guestRepository.findByEmail(request.getEmail())
                 .filter(existing -> !existing.getId().equals(id))
@@ -52,10 +49,10 @@ public class GuestService {
         guest.setEmail(request.getEmail());
         guest.setPhone(request.getPhone());
         guest.setIdProof(request.getIdProof());
-        return new GuestResponse(guest);
+        return new GuestResponse(guestRepository.save(guest));
     }
 
-    public Guest getGuest(Long id) {
+    public Guest getGuest(String id) {
         return guestRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Guest not found with id " + id));
     }

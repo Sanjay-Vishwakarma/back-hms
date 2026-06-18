@@ -13,7 +13,6 @@ import com.learn.jd.repository.BookingRepository;
 import com.learn.jd.repository.GuestRepository;
 import com.learn.jd.repository.RoomRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,7 +36,6 @@ public class BookingService {
         this.guestRepository = guestRepository;
     }
 
-    @Transactional(readOnly = true)
     public List<BookingResponse> findAll() {
         return bookingRepository.findAll()
                 .stream()
@@ -45,7 +43,6 @@ public class BookingService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public BookingResponse create(BookingRequest request) {
         if (!request.getCheckOutDate().isAfter(request.getCheckInDate())) {
             throw new BusinessException("Check-out date must be after check-in date");
@@ -71,42 +68,37 @@ public class BookingService {
         return new BookingResponse(bookingRepository.save(booking));
     }
 
-    @Transactional
-    public BookingResponse checkIn(Long id) {
+    public BookingResponse checkIn(String id) {
         Booking booking = getBooking(id);
         if (booking.getStatus() != BookingStatus.RESERVED) {
             throw new BusinessException("Only reserved bookings can be checked in");
         }
         booking.setStatus(BookingStatus.CHECKED_IN);
-        return new BookingResponse(booking);
+        return new BookingResponse(bookingRepository.save(booking));
     }
 
-    @Transactional
-    public BookingResponse checkOut(Long id) {
+    public BookingResponse checkOut(String id) {
         Booking booking = getBooking(id);
         if (booking.getStatus() != BookingStatus.CHECKED_IN) {
             throw new BusinessException("Only checked-in bookings can be checked out");
         }
         booking.setStatus(BookingStatus.CHECKED_OUT);
-        return new BookingResponse(booking);
+        return new BookingResponse(bookingRepository.save(booking));
     }
 
-    @Transactional
-    public BookingResponse cancel(Long id) {
+    public BookingResponse cancel(String id) {
         Booking booking = getBooking(id);
         if (booking.getStatus() == BookingStatus.CHECKED_OUT) {
             throw new BusinessException("Checked-out bookings cannot be cancelled");
         }
         booking.setStatus(BookingStatus.CANCELLED);
-        return new BookingResponse(booking);
+        return new BookingResponse(bookingRepository.save(booking));
     }
 
-    @Transactional(readOnly = true)
-    public boolean isRoomAvailable(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
+    public boolean isRoomAvailable(String roomId, LocalDate checkInDate, LocalDate checkOutDate) {
         return bookingRepository.findOverlappingBookings(roomId, checkInDate, checkOutDate, OCCUPYING_STATUSES).isEmpty();
     }
 
-    @Transactional(readOnly = true)
     public RevenueSummaryResponse revenueSummary() {
         List<Booking> bookings = bookingRepository.findAll();
         long activeBookings = bookings.stream()
@@ -123,7 +115,7 @@ public class BookingService {
         return new RevenueSummaryResponse(bookings.size(), activeBookings, cancelledBookings, confirmedRevenue);
     }
 
-    private Booking getBooking(Long id) {
+    private Booking getBooking(String id) {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id " + id));
     }

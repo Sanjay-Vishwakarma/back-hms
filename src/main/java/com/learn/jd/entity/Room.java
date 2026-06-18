@@ -1,37 +1,25 @@
 package com.learn.jd.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "rooms")
+@Document(collection = "rooms")
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false, unique = true)
+    @Indexed(unique = true)
     private String roomNumber;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private RoomType type;
 
-    @Column(nullable = false)
     private int capacity;
 
-    @Column(nullable = false)
     private BigDecimal pricePerNight;
 
-    @Column(nullable = false)
     private boolean active = true;
 
     public Room() {
@@ -44,7 +32,7 @@ public class Room {
         this.pricePerNight = pricePerNight;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

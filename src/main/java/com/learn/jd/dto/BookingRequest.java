@@ -9,10 +9,10 @@ import java.time.LocalDate;
 public class BookingRequest {
 
     @NotNull
-    private Long roomId;
+    private String roomId;
 
     @NotNull
-    private Long guestId;
+    private String guestId;
 
     @NotNull
     @FutureOrPresent
@@ -25,19 +25,19 @@ public class BookingRequest {
     @Min(1)
     private int numberOfGuests;
 
-    public Long getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Long roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
-    public Long getGuestId() {
+    public String getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(Long guestId) {
+    public void setGuestId(String guestId) {
         this.guestId = guestId;
     }
 

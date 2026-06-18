@@ -8,7 +8,6 @@ import com.learn.jd.exception.BusinessException;
 import com.learn.jd.exception.ResourceNotFoundException;
 import com.learn.jd.repository.RoomRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,7 +42,6 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public RoomResponse create(RoomRequest request) {
         roomRepository.findByRoomNumber(request.getRoomNumber())
                 .ifPresent(room -> {
@@ -54,8 +52,7 @@ public class RoomService {
         return new RoomResponse(roomRepository.save(room));
     }
 
-    @Transactional
-    public RoomResponse update(Long id, RoomRequest request) {
+    public RoomResponse update(String id, RoomRequest request) {
         Room room = getRoom(id);
         roomRepository.findByRoomNumber(request.getRoomNumber())
                 .filter(existing -> !existing.getId().equals(id))
@@ -67,16 +64,16 @@ public class RoomService {
         room.setType(request.getType());
         room.setCapacity(request.getCapacity());
         room.setPricePerNight(request.getPricePerNight());
-        return new RoomResponse(room);
+        return new RoomResponse(roomRepository.save(room));
     }
 
-    @Transactional
-    public void deactivate(Long id) {
+    public void deactivate(String id) {
         Room room = getRoom(id);
         room.setActive(false);
+        roomRepository.save(room);
     }
 
-    public Room getRoom(Long id) {
+    public Room getRoom(String id) {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id " + id));
     }
