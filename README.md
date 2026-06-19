@@ -52,3 +52,14 @@ Error API:     1
 Total:        16
 
 The main business APIs are 14, excluding /h2-console and /error.
+
+
+
+//
+
+run the spring boot application
+- ./mvnw spring-boot:run    
+
+db
+
+http://localhost:8091/h2-console
